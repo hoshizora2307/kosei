@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Roboto Mono', monospace;
-    background-color: var(--bg-color);
+    background-color: var(--bg-color); /* マトリックスキャンバスがあるので、これはほとんど見えません */
     color: var(--text-color);
     display: flex;
     justify-content: center;
@@ -19,12 +19,23 @@ body {
     position: relative;
 }
 
+/* マトリックスキャンバスのスタイル */
+#matrix-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2; /* 他のコンテンツの下に配置 */
+}
+
+/* 以前のグローエフェクトも残しておきますが、マトリックス背景があるため目立ちにくいかもしれません */
 body::before,
 body::after {
     content: '';
     position: absolute;
     border-radius: 50%;
-    opacity: 0.1;
+    opacity: 0.05; /* 透明度をさらに下げて背景になじませる */
     z-index: -1;
 }
 
@@ -51,11 +62,23 @@ body::after {
     to { transform: translate(150px, 150px); }
 }
 
+/* メインコンテンツのラッパー。マトリックスの上に表示されるようにする */
+.content-wrapper {
+    position: relative;
+    z-index: 1; /* キャンバスの上に表示 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+}
+
 .app-container {
     max-width: 800px;
     width: 90%;
     padding: 30px;
     box-sizing: border-box;
+    /* 背景が透過しているので、マトリックスエフェクトが見えます */
 }
 
 .title {
@@ -99,6 +122,7 @@ body::after {
     height: 200px;
     overflow: hidden;
     margin-bottom: 20px;
+    border-radius: 5px; /* 画像にも少し角丸を */
 }
 
 #star-image {
