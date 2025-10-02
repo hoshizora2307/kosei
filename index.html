@@ -8,18 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="splash-screen">
-        <h1 class="splash-title">Stellar Explorer</h1>
-        <div class="loading-dots">
-            <span>.</span><span>.</span><span>.</span>
-        </div>
-        <div class="splash-footer">
-            <p>プログラム制作：hoshizora2307</p>
-            <p>問題監修：高瀬敏行</p>
-        </div>
-    </div>
-
-    <div class="container" id="main-content">
+    <div class="app-container">
         <header>
             <h1 class="title">Stellar Explorer</h1>
             <p class="subtitle">A guide to the stars</p>
@@ -27,16 +16,19 @@
         
         <main>
             <div id="star-card">
+                <div id="star-image-container">
+                    <img id="star-image" src="" alt="恒星の画像">
+                </div>
                 <div class="star-name" id="star-name">Loading...</div>
                 <div class="star-info-container">
                     <div class="info-section">
                         <h2>基本情報</h2>
                         <p>分類: <span id="spectral-class"></span></p>
                         <p>等級: <span id="magnitude"></span></p>
-                        <p>質量: <span id="mass"></span></p>
                     </div>
                     <div class="info-section">
-                        <h2>物理特性</h2>
+                        <h2>物理特性（太陽との比較）</h2>
+                        <p>質量: <span id="mass"></span></p>
                         <p>半径: <span id="radius"></span></p>
                         <p>温度: <span id="temperature"></span></p>
                         <p>光度: <span id="luminosity"></span></p>
@@ -48,7 +40,7 @@
         </main>
 
         <footer>
-            <p>プログラム制作：hoshizora2307</p>
+            <p>プログラミング：hoshizora2307</p>
             <p>監修：高瀬 敏行</p>
             <p>権利者：志賀高原SpaceLab</p>
         </footer>
