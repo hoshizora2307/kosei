@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Roboto Mono', monospace;
-    background-color: var(--bg-color); /* マトリックスキャンバスがあるので、これはほとんど見えません */
+    background-color: var(--bg-color);
     color: var(--text-color);
     display: flex;
     justify-content: center;
@@ -19,23 +19,22 @@ body {
     position: relative;
 }
 
-/* マトリックスキャンバスのスタイル */
-#matrix-canvas {
-    position: absolute;
+#matrix-background {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: -2; /* 他のコンテンツの下に配置 */
+    opacity: 0.2; /* 透明度を調整 */
 }
 
-/* 以前のグローエフェクトも残しておきますが、マトリックス背景があるため目立ちにくいかもしれません */
 body::before,
 body::after {
     content: '';
     position: absolute;
     border-radius: 50%;
-    opacity: 0.05; /* 透明度をさらに下げて背景になじませる */
+    opacity: 0.1;
     z-index: -1;
 }
 
@@ -62,23 +61,13 @@ body::after {
     to { transform: translate(150px, 150px); }
 }
 
-/* メインコンテンツのラッパー。マトリックスの上に表示されるようにする */
-.content-wrapper {
-    position: relative;
-    z-index: 1; /* キャンバスの上に表示 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    min-height: 100vh;
-}
-
 .app-container {
     max-width: 800px;
     width: 90%;
     padding: 30px;
     box-sizing: border-box;
-    /* 背景が透過しているので、マトリックスエフェクトが見えます */
+    position: relative; /* z-indexが機能するように */
+    z-index: 1; /* マトリックス背景より手前に表示 */
 }
 
 .title {
@@ -122,13 +111,15 @@ body::after {
     height: 200px;
     overflow: hidden;
     margin-bottom: 20px;
-    border-radius: 5px; /* 画像にも少し角丸を */
+    border-radius: 50%; /* 画像を丸くする */
+    border: 2px solid var(--highlight-color); /* 枠線を追加 */
+    box-shadow: 0 0 15px rgba(102, 252, 241, 0.5); /* 発光効果 */
 }
 
 #star-image {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover; /* 画像をコンテナに合わせてトリミング */
 }
 
 .star-name {
@@ -144,10 +135,12 @@ body::after {
     justify-content: space-around;
     gap: 20px;
     width: 100%;
+    flex-wrap: wrap; /* スマホで折り返す */
 }
 
 .info-section {
     flex: 1;
+    min-width: 250px; /* スマホで最低幅を設定 */
     margin-bottom: 20px;
     text-align: left;
 }
@@ -188,4 +181,29 @@ footer {
     margin-top: 50px;
     font-size: 0.8em;
     color: #5a5e6a;
+}
+
+/* スマートフォンでの調整 */
+@media (max-width: 600px) {
+    .title {
+        font-size: 2em;
+        letter-spacing: 2px;
+    }
+
+    .subtitle {
+        font-size: 1em;
+    }
+
+    .star-name {
+        font-size: 1.8em;
+    }
+
+    .info-section {
+        min-width: unset; /* スマホでは最低幅を解除 */
+        text-align: center; /* 中央寄せ */
+    }
+
+    .info-section h2 {
+        font-size: 1.2em;
+    }
 }
