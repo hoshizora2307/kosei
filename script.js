@@ -1,3 +1,58 @@
+// --- マトリックスエフェクトのコード ---
+const canvas = document.getElementById('matrix-canvas');
+const ctx = canvas.getContext('2d');
+
+let cw = window.innerWidth;
+let ch = window.innerHeight;
+
+canvas.width = cw;
+canvas.height = ch;
+
+let matrix = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%";
+matrix = matrix.split("");
+
+let font_size = 10;
+let columns = cw / font_size;
+let drops = [];
+
+for (let x = 0; x < columns; x++) {
+    drops[x] = 1;
+}
+
+function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.04)"; // 半透明の黒で背景を塗りつぶし、残像効果
+    ctx.fillRect(0, 0, cw, ch);
+
+    ctx.fillStyle = "#0F0"; // 緑色の文字
+    ctx.font = font_size + "px arial";
+
+    for (let i = 0; i < drops.length; i++) {
+        let text = matrix[Math.floor(Math.random() * matrix.length)];
+        ctx.fillText(text, i * font_size, drops[i] * font_size);
+
+        if (drops[i] * font_size > ch && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+        drops[i]++;
+    }
+}
+
+setInterval(drawMatrix, 35); // 描画間隔を調整して速度を変更
+
+// ウィンドウサイズ変更時にキャンバスをリサイズ
+window.addEventListener('resize', () => {
+    cw = window.innerWidth;
+    ch = window.innerHeight;
+    canvas.width = cw;
+    canvas.height = ch;
+    columns = cw / font_size;
+    drops = [];
+    for (let x = 0; x < columns; x++) {
+        drops[x] = 1;
+    }
+});
+
+// --- 恒星アプリのコード ---
 const starData = [
     {
         name: "シリウス",
@@ -81,7 +136,7 @@ const starData = [
     },
     {
         name: "アケルナル",
-        image: "https://i.ibb.co/S3GzH2s/spaceship.png", // 例の画像
+        image: "https://i.ibb.co/S3GzH2s/spaceship.png", 
         spectral_class: "B3Vpe",
         magnitude: "0.45",
         mass_ratio: 6.7,
@@ -190,24 +245,24 @@ const starData = [
         luminosity_ratio: 25000
     },
     {
-        name: "アルタイル",
-        image: "https://i.ibb.co/rQf1z2B/Altair.png",
-        spectral_class: "A7V",
-        magnitude: "0.77",
-        mass_ratio: 1.8,
-        radius_ratio: 1.8,
-        temperature: "7,550 K",
-        luminosity_ratio: 10.7
+        name: "レグルス",
+        image: "https://i.ibb.co/gST2F3z/Regulus.png",
+        spectral_class: "B7V",
+        magnitude: "1.35",
+        mass_ratio: 3.8,
+        radius_ratio: 3.2,
+        temperature: "12,400 K",
+        luminosity_ratio: 240
     },
     {
-        name: "ベテルギウス",
-        image: "https://i.ibb.co/GtnqW2t/Betelgeuse.png",
-        spectral_class: "M2Iab",
-        magnitude: "0.50",
-        mass_ratio: 18,
-        radius_ratio: 900,
-        temperature: "3,500 K",
-        luminosity_ratio: 100000
+        name: "アダーラ",
+        image: "https://i.ibb.co/BPL2M6C/Adhara.png",
+        spectral_class: "B2II",
+        magnitude: "1.50",
+        mass_ratio: 12.5,
+        radius_ratio: 15,
+        temperature: "22,900 K",
+        luminosity_ratio: 38700
     }
 ];
 
@@ -228,7 +283,7 @@ function displayRandomStar() {
     let randomIndex;
     do {
         randomIndex = Math.floor(Math.random() * starData.length);
-    } while (randomIndex === lastStarIndex);
+    } while (randomIndex === lastStarIndex); // 前回と同じインデックスなら再抽選
 
     const star = starData[randomIndex];
     lastStarIndex = randomIndex;
@@ -251,7 +306,7 @@ function displayRandomStar() {
     }, 500);
 }
 
-// 最初にアプリを開いたときに表示
+// ページ読み込み完了後に表示
 window.addEventListener('load', () => {
     displayRandomStar();
 });
